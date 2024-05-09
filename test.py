@@ -13,7 +13,7 @@ nltk.download('stopwords')
 nltk.download('punkt')
 
 class TextProcessor:
-    def __init__(self):
+    def _init_(self):
         self.port_stemmer = PorterStemmer()
         self.stop_words = set(stopwords.words('english'))
 
@@ -44,12 +44,12 @@ class FileHandler:
 def main():
     st.title('Sentimental Analyzer')
 
-    uploaded_file = st.file_uploader("Upload a file", type=['mp3', 'wav'])
+    uploaded_file = st.file_uploader("Upload a file", type=['wav'])
     input_sms = st.text_input("Enter the Message")
 
     if uploaded_file is not None:
         st.write("File uploaded successfully!")
-        FileHandler.save_uploaded_file(uploaded_file, os.path.join(r"C:\Users\kisha\Projects\Sentimental Analysis", "new.wav"))
+        FileHandler.save_uploaded_file(uploaded_file, os.path.join( "new.wav"))
         st.success("File saved successfully!")
 
         recognizer = sr.Recognizer()
@@ -68,14 +68,30 @@ def main():
 
         st.write(input_sms)
 
-    if st.button('Predict'):
-        if input_sms == "" and uploaded_file is None:
-            st.header('Please Enter Your Message !!!')
-        else:
-            text_processor = TextProcessor()
-            input_sms = text_processor.clean_text(input_sms)
-            sentiment = SentimentAnalyzer.generate_polarity(input_sms)
-            st.header(sentiment[0])
+    # if st.button('Predict'):
+    #     if input_sms == "" and uploaded_file is None:
+    #         st.header('Please Enter Your Message !!!')
+    #     else:
+    #         text_processor = TextProcessor()
+    #         input_sms = text_processor.clean_text(input_sms)
+    #         sentiment = SentimentAnalyzer.generate_polarity(input_sms)
+    #         st.header(sentiment[0])
 
-if __name__ == "__main__":
+    if st.button('Predict'):
+            if input_sms == "" and uploaded_file is None:
+                st.header('Please Enter Your Message !!!')
+            else:
+                text_processor = TextProcessor()
+                input_sms = text_processor.clean_text(input_sms)
+                sentiment = SentimentAnalyzer.generate_polarity(input_sms)
+                st.header(sentiment[0])
+    
+                if sentiment[0] > 0.00:
+                    st.header("Positive Sentiment")
+                elif sentiment[0] < 0.00:
+                    st.header("Negative Sentiment")
+                else:
+                    st.header("Neutral Sentiment")
+
+if _name_ == "_main_":
     main()
