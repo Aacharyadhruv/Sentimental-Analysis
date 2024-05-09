@@ -83,8 +83,6 @@ def main():
             else:
                 text_processor = TextProcessor()
                 input_sms = text_processor.clean_text(input_sms)
-                st.write(type(input_sms))
-                st.write(input_sms[0])
                 sentiment = TextBlob("Not Happy").sentiment
                 # sentiment = SentimentAnalyzer.generate_polarity(input_sms)
                 st.header(sentiment[0])
